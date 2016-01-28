@@ -1,17 +1,18 @@
 {
     "version": "1.0.0-*",
-    "description": "Handlebars Templating in docx file",
+    "description": "Tests for Handlebars Templating in docx file",
     "authors": [ "" ],
     "tags": [ "" ],
     "projectUrl": "",
     "licenseUrl": "",
     "tooling": {
-      "defaultNamespace": "HandlebarsDocx"
+      "defaultNamespace": "HandlebarsDocx.Tests"
     },
     "dependencies": {
         "xunit": "2.1.0",
         "xunit.runner.dnx": "2.1.0-rc1-build204",
-        "DocumentFormat.OpenXml": "2.5.0"
+        "DocumentFormat.OpenXml": "2.5.0",
+        "HandlebarsDocx": ""
     },
     "commands": {
         "test": "xunit.runner.dnx"

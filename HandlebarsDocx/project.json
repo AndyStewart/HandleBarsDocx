@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-*",
-  "description": "HandlebarsDocx Class Library",
+  "description": "Handlebars Templating in docx file",
   "authors": [ "Class Library template" ],
   "tags": [""],
   "projectUrl": "",
@@ -8,17 +8,14 @@
   "tooling": {
     "defaultNamespace": "HandlebarsDocx"
   },
-
+  "dependencies": {
+        "DocumentFormat.OpenXml": "2.5.0"
+  },
   "frameworks": {
-    "net451": { },
-    "dotnet5.4": {
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "System.Collections": "4.0.11-beta-23516",
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Runtime": "4.0.21-beta-23516",
-        "System.Threading": "4.0.11-beta-23516"
+      "dnx451": {
+      "frameworkAssemblies": {
+          "WindowsBase": "4.0.0.0"
+        }
       }
-    }
   }
 }

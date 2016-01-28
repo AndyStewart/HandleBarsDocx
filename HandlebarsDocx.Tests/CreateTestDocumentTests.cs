@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace HandlebarsDocx
+namespace HandlebarsDocx.Tests
 {
     // see example explanation on xUnit.net website:
     // https://xunit.github.io/docs/getting-started-dnx.html
