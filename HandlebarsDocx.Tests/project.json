@@ -1,0 +1,26 @@
+{
+    "version": "1.0.0-*",
+    "description": "Handlebars Templating in docx file",
+    "authors": [ "" ],
+    "tags": [ "" ],
+    "projectUrl": "",
+    "licenseUrl": "",
+    "tooling": {
+      "defaultNamespace": "HandlebarsDocx"
+    },
+    "dependencies": {
+        "xunit": "2.1.0",
+        "xunit.runner.dnx": "2.1.0-rc1-build204",
+        "DocumentFormat.OpenXml": "2.5.0"
+    },
+    "commands": {
+        "test": "xunit.runner.dnx"
+    },
+    "frameworks": {
+        "dnx451": {
+        "frameworkAssemblies": {
+            "WindowsBase": "4.0.0.0"
+          }
+        }
+    }
+}
