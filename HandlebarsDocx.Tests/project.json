@@ -15,7 +15,7 @@
         "HandlebarsDocx": ""
     },
     "commands": {
-        "test": "xunit.runner.dnx"
+        "test": "xunit.runner.dnx -parallel none"
     },
     "frameworks": {
         "dnx451": {
