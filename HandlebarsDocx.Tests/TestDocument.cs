@@ -1,3 +1,5 @@
+using System.IO;
+using System.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -6,16 +8,24 @@ namespace HandlebarsDocx.Tests
 {
     public class TestDocument
     {
+
+      public static WordprocessingDocument Create(params Text[] textNodes)
+      {
+          var memoryStream = new MemoryStream();
+          var docs = WordprocessingDocument.Create(memoryStream, WordprocessingDocumentType.Document);
+          var mainPart = docs.AddMainDocumentPart();
+          mainPart.Document = new Document();
+          var body = mainPart.Document.AppendChild(new Body());
+          var para = body.AppendChild(new Paragraph());
+          var run = para.AppendChild(new Run());
+          textNodes.ToList().ForEach(q => run.AppendChild(q));
+          return docs;
+      }
+
+
         public static WordprocessingDocument Create(string contents)
         {
-            var docs = WordprocessingDocument.Create("c:\\repos\\a.docx", WordprocessingDocumentType.Document);
-            var mainPart = docs.AddMainDocumentPart();
-            mainPart.Document = new Document();
-            var body = mainPart.Document.AppendChild(new Body());
-            var para = body.AppendChild(new Paragraph());
-            var run = para.AppendChild(new Run());
-            run.AppendChild(new Text(contents));
-            return docs;
+            return Create(new Text(contents));
         }
     }
 }
