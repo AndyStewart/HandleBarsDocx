@@ -16,7 +16,7 @@ namespace HandlebarsDocx.Tests
           var mainPart = docs.AddMainDocumentPart();
           mainPart.Document = new Document();
           var body = mainPart.Document.AppendChild(new Body());
-          var para = body.AppendChild(new Paragraph());
+          var para = body.AppendChild(new DocumentFormat.OpenXml.Wordprocessing.Paragraph());
           var run = para.AppendChild(new Run());
           textNodes.ToList().ForEach(q => run.AppendChild(q));
           return docs;
