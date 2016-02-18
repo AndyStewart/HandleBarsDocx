@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
-
 namespace HandlebarsDocx
 {
-    public class Token
+    public class TokenValue
     {
-        public Token(string name, string tokenValue)
+        public TokenValue(string name, string tokenValue)
       {
             this.Name = name;
             this.Value = tokenValue;

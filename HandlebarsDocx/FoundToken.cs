@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
-
 namespace HandlebarsDocx
 {
     public class FoundToken
@@ -22,7 +15,7 @@ namespace HandlebarsDocx
 
         public string Token { get; }
 
-        public void Replace(Token replaceText)
+        public void Replace(TokenValue replaceText)
         {
             element.Replace(start, end, replaceText);
         }

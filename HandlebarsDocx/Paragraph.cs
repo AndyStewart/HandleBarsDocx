@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -20,7 +19,7 @@ namespace HandlebarsDocx
 
         public string Text => Characters.Aggregate("", (c, current) => c + current.Text);
 
-        public void Replace(int start, int end, Token token)
+        public void Replace(int start, int end, TokenValue token)
         {
             var insertionPoint = Characters.Skip(start).First();
             insertionPoint.Insert(token.Value);

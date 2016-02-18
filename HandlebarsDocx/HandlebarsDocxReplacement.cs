@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace HandlebarsDocx
 {
@@ -47,15 +45,15 @@ namespace HandlebarsDocx
             }
         }
 
-        private static System.Collections.Generic.IEnumerable<Token> GetPossibleTokens(object values)
+        private static System.Collections.Generic.IEnumerable<TokenValue> GetPossibleTokens(object values)
         {
             return values.GetType().GetProperties().Select(property => ConvertPropertyToToken(values, property));
         }
 
-        private static Token ConvertPropertyToToken(object valueObject, PropertyInfo property)
+        private static TokenValue ConvertPropertyToToken(object valueObject, PropertyInfo property)
         {
             var tokenValue = property.GetValue(valueObject).ToString();
-            return new Token(property.Name, tokenValue);
+            return new TokenValue(property.Name, tokenValue);
         }
     }
 }
