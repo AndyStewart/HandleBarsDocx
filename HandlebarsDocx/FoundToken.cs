@@ -14,10 +14,11 @@ namespace HandlebarsDocx
         }
 
         public string Token { get; }
+        public string Name => Token.Substring(2, Token.Length - 4);
 
-        public void Replace(TokenValue replaceText)
+        public void Replace(string value)
         {
-            element.Replace(start, end, replaceText);
+            element.Replace(start, end, this, value);
         }
     }
 }

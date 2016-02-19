@@ -19,13 +19,13 @@ namespace HandlebarsDocx
 
         public string Text => Characters.Aggregate("", (c, current) => c + current.Text);
 
-        public void Replace(int start, int end, TokenValue token)
+        public void Replace(int start, int end, FoundToken token, string value)
         {
             var insertionPoint = Characters.Skip(start).First();
-            insertionPoint.Insert(token.Value);
+            insertionPoint.Insert(value);
 
-            var newStart = start + token.Value.Length;
-            var charsToRemove = Characters.Skip(newStart).Take(token.TokenString.Length - 1).ToList();
+            var newStart = start + value.Length;
+            var charsToRemove = Characters.Skip(newStart).Take(token.Token.Length - 1).ToList();
             charsToRemove.Reverse();
             charsToRemove.ForEach(q => q.Remove());
         }

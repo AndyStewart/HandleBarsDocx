@@ -8,6 +8,7 @@ namespace HandlebarsDocx.Tests
     {
         public string Name => "Andy";
         public string Hello => "Hello World";
+        public BasicTokenReplacement.PersonDetails Person => new BasicTokenReplacement.PersonDetails{ FirstName = "Andrew" };
 
         [Fact]
         public void ShouldReplaceBasicHandlebarsSyntax()
@@ -38,6 +39,20 @@ namespace HandlebarsDocx.Tests
               var innerText = replacedDocument.MainDocumentPart.Document.Body.InnerText;
               Assert.True(innerText.Contains("Hello World"));
               Assert.False(innerText.Contains("{{Hello}}"));
+        }
+
+        [Fact]
+        public void ShouldReplaceNestedProperty()
+        {
+            var document = TestDocument.Create("{{Person.FirstName}}");
+            var replacedDocument = HandlebarsDocxReplacement.Replace(document, this);
+            var innerText = replacedDocument.MainDocumentPart.Document.Body.InnerText;
+            Assert.True(innerText.Contains("Andrew"));
+        }
+
+        public class PersonDetails
+        {
+            public string FirstName { get; set; }
         }
     }
 }

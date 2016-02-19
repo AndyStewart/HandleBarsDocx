@@ -9,15 +9,29 @@ namespace HandlebarsDocx
     {
         public static WordprocessingDocument Replace(WordprocessingDocument document, object values)
         {
-            var tokenValues = GetPossibleTokens(values);
             foreach (var token in FindTokensInDocument(document))
             {
-                var replaceText = tokenValues.FirstOrDefault(q => q.TokenString == token.Token);
-                token.Replace(replaceText);
+                var replaceText = GetValue(token.Name, values);
+                token.Replace(replaceText.ToString());
             }
 
             return document;
         }
+
+        private static object GetValue(string name, object values)
+        {
+            var propertyName = name.Split('.').First();
+            var property = values.GetType()
+                                    .GetProperties()
+                                    .First(q => q.Name == propertyName);
+
+            var tokenValue = property.GetValue(values);
+            if (propertyName == name)
+                return tokenValue;
+
+            return GetValue(name.Substring(propertyName.Length + 1), tokenValue);
+        }
+
 
         private static IEnumerable<FoundToken> FindTokensInDocument(WordprocessingDocument document)
         {
