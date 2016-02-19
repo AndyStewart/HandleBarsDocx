@@ -58,16 +58,5 @@ namespace HandlebarsDocx
                 }
             }
         }
-
-        private static System.Collections.Generic.IEnumerable<TokenValue> GetPossibleTokens(object values)
-        {
-            return values.GetType().GetProperties().Select(property => ConvertPropertyToToken(values, property));
-        }
-
-        private static TokenValue ConvertPropertyToToken(object valueObject, PropertyInfo property)
-        {
-            var tokenValue = property.GetValue(valueObject).ToString();
-            return new TokenValue(property.Name, tokenValue);
-        }
     }
 }
