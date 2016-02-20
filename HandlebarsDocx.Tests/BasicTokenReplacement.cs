@@ -1,6 +1,5 @@
 using Xunit;
 using DocumentFormat.OpenXml.Wordprocessing;
-using HandlebarsDocx;
 
 namespace HandlebarsDocx.Tests
 {

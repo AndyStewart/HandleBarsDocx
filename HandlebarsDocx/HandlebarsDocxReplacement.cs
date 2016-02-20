@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace HandlebarsDocx
@@ -11,8 +10,27 @@ namespace HandlebarsDocx
         {
             foreach (var token in FindTokensInDocument(document))
             {
-                var replaceText = GetValue(token.Name, values);
-                token.Replace(replaceText.ToString());
+                var args = token.Name.Split(' ');
+                if (args.First() == "with")
+                {
+                    token.Replace("");
+                    var topPropertyValue = GetValue(args[1], values);
+                    foreach (var nestedToken in FindTokensInDocument(document).TakeWhile(q => q.Name != "/with"))
+                    {
+                        var replacementValue = GetValue(nestedToken.Name, topPropertyValue);
+
+                        nestedToken.Replace(replacementValue.ToString());
+                    }
+
+                    var endToken = FindTokensInDocument(document).First(q => q.Name == "/with");
+                    endToken.Replace("");
+
+                }
+                else
+                {
+                    var replaceText = GetValue(token.Name, values);
+                    token.Replace(replaceText.ToString());
+                }
             }
 
             return document;
