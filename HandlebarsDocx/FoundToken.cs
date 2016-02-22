@@ -1,3 +1,4 @@
+using System.Linq;
 namespace HandlebarsDocx
 {
     public class FoundToken
@@ -14,7 +15,9 @@ namespace HandlebarsDocx
         }
 
         public string Token { get; }
-        public string Name => Token.Substring(2, Token.Length - 4);
+        public string Contents => Token.Substring(2, Token.Length - 4);
+        public string Name => Contents.Split(' ').First();
+        public string[] Args => Contents.Split(' ').Skip(1).ToArray();
 
         public void Replace(string value)
         {

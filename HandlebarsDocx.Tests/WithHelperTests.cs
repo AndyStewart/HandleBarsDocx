@@ -12,9 +12,9 @@ namespace HandlebarsDocx.Tests
         [Fact]
         public void ReplacePropertyOnNestedObject()
         {
-            using (var docs = TestDocument.Create("{{with Person}}{{FirstName}}{{/with}}"))
+            using (var docs = TestDocument.Create("{{#with Person}}{{FirstName}}{{/with}}"))
             {
-                var replacedDocument = HandlebarsDocxReplacement.Replace(docs, this);
+                var replacedDocument = HandlebarsDocument.Replace(docs, this);
                 var innerText = replacedDocument.MainDocumentPart.Document.Body.InnerText;
                 Assert.Equal("Andrew", docs.MainDocumentPart.Document.Body.InnerText);
             }

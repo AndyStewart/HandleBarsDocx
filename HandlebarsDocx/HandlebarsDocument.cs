@@ -4,17 +4,16 @@ using DocumentFormat.OpenXml.Packaging;
 
 namespace HandlebarsDocx
 {
-    public class HandlebarsDocxReplacement
+    public class HandlebarsDocument
     {
         public static WordprocessingDocument Replace(WordprocessingDocument document, object values)
         {
-            foreach (var token in FindTokensInDocument(document))
+            foreach (var token in new Document(document).Tokens())
             {
-                var args = token.Name.Split(' ');
-                if (args.First() == "with")
+                if (token.Name == "#with")
                 {
                     token.Replace("");
-                    var topPropertyValue = GetValue(args[1], values);
+                    var topPropertyValue = GetValue(token.Args[0], values);
                     foreach (var nestedToken in FindTokensInDocument(document).TakeWhile(q => q.Name != "/with"))
                     {
                         var replacementValue = GetValue(nestedToken.Name, topPropertyValue);
@@ -23,6 +22,13 @@ namespace HandlebarsDocx
                     }
 
                     var endToken = FindTokensInDocument(document).First(q => q.Name == "/with");
+                    endToken.Replace("");
+
+                }
+                else if (token.Name == "#if")
+                {
+                    token.Replace("");
+                    var endToken = FindTokensInDocument(document).First(q => q.Name == "/if");
                     endToken.Replace("");
 
                 }

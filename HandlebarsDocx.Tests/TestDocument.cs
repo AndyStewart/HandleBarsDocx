@@ -14,7 +14,7 @@ namespace HandlebarsDocx.Tests
           var memoryStream = new MemoryStream();
           var docs = WordprocessingDocument.Create(memoryStream, WordprocessingDocumentType.Document);
           var mainPart = docs.AddMainDocumentPart();
-          mainPart.Document = new Document();
+          mainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document();
           var body = mainPart.Document.AppendChild(new Body());
           var para = body.AppendChild(new DocumentFormat.OpenXml.Wordprocessing.Paragraph());
           var run = para.AppendChild(new Run());
