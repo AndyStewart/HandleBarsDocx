@@ -4,22 +4,22 @@ namespace HandlebarsDocx
 {
     public class Character
     {
-        private Text text;
-        private int position;
+        private readonly Text _text;
+        private readonly int _position;
 
         public Character(Text text, int position) {
-            this.text = text;
-            this.position = position;
+            _text = text;
+            _position = position;
         }
 
-        public char Text => text.Text[position];
-        public void Remove() => text.Text = text.Text.Substring(0, position)
-                                                + text.Text.Substring(position + 1);
+        public char Text => _text.Text[_position];
+        public void Remove() => _text.Text = _text.Text.Substring(0, _position)
+                                                + _text.Text.Substring(_position + 1);
         public void Insert(string value)
         {
-            text.Text = text.Text.Substring(0, position)
+            _text.Text = _text.Text.Substring(0, _position)
                                                 + value
-                                                + text.Text.Substring(position + 1);
+                                                + _text.Text.Substring(_position + 1);
         }
     }
 

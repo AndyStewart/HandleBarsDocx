@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 
@@ -6,40 +6,50 @@ namespace HandlebarsDocx
 {
     public class HandlebarsDocument
     {
-        public static WordprocessingDocument Replace(WordprocessingDocument document, object values)
+        public static WordprocessingDocument Replace(WordprocessingDocument wordDocument, object values)
         {
-            foreach (var token in new Document(document).Tokens())
+            var document = new Document(wordDocument);
+            foreach (var helper in document.Helpers())
             {
-                if (token.Name == "#with")
+                if (helper.Name == "with")
                 {
-                    token.Replace("");
-                    var topPropertyValue = GetValue(token.Args[0], values);
-                    foreach (var nestedToken in FindTokensInDocument(document).TakeWhile(q => q.Name != "/with"))
+                    helper.StartToken.Replace("");
+                    var topPropertyValue = GetValue(helper.Args[0], values);
+                    foreach (var nestedToken in document.Tokens().TakeWhile(q => q.Name != "/with"))
                     {
                         var replacementValue = GetValue(nestedToken.Name, topPropertyValue);
-
                         nestedToken.Replace(replacementValue.ToString());
                     }
 
-                    var endToken = FindTokensInDocument(document).First(q => q.Name == "/with");
-                    endToken.Replace("");
-
+                    document.Tokens().First(q => q.Name == "/with").Replace("");
                 }
-                else if (token.Name == "#if")
+                else if (helper.Name == "if")
                 {
-                    token.Replace("");
-                    var endToken = FindTokensInDocument(document).First(q => q.Name == "/if");
-                    endToken.Replace("");
+                    helper.EndToken.Replace("");
 
-                }
-                else
-                {
-                    var replaceText = GetValue(token.Name, values);
-                    token.Replace(replaceText.ToString());
+                    var showContent = (bool)GetValue(helper.Args[0], values);
+                    if (!showContent)
+                    {
+                        helper
+                            .Contents
+                            .Reverse()
+                            .ToList()
+                            .ForEach(c => c.Remove());
+                    }
+
+                    helper.StartToken.Replace("");
                 }
             }
 
-            return document;
+            foreach (var token in document
+                                    .Tokens()
+                                    .Where(q => !q.Name.StartsWith("#") && !q.Name.StartsWith("/")))
+            {
+                var replaceText = GetValue(token.Name, values);
+                token.Replace(replaceText.ToString());
+            }
+
+            return wordDocument;
         }
 
         private static object GetValue(string name, object values)
@@ -54,33 +64,6 @@ namespace HandlebarsDocx
                 return tokenValue;
 
             return GetValue(name.Substring(propertyName.Length + 1), tokenValue);
-        }
-
-
-        private static IEnumerable<FoundToken> FindTokensInDocument(WordprocessingDocument document)
-        {
-            var paragraphs = document.MainDocumentPart
-                                                .Document
-                                                .Body
-                                                .Descendants<DocumentFormat.OpenXml.Wordprocessing.Paragraph>()
-                                                .Select(p => new Paragraph(p));
-
-            foreach (var paragraph in paragraphs)
-            {
-                var characters = paragraph.Characters;
-
-                int searchPoint = 0;
-                while(searchPoint < paragraph.Text.Length && paragraph.Text.IndexOf("{{", searchPoint) > -1)
-                {
-                    var startIndex = paragraph.Text.IndexOf("{{", searchPoint);
-                    var endIndex = paragraph.Text.IndexOf("}}", searchPoint) + 2;
-                    if (startIndex > -1 && endIndex > -1)
-                    {
-                        yield return new FoundToken(paragraph, startIndex, endIndex);
-                    }
-                    searchPoint = endIndex;
-                }
-            }
         }
     }
 }

@@ -6,25 +6,25 @@ namespace HandlebarsDocx
 {
     public class Element
     {
-        private Text text;
+        private readonly Text _text;
         public Element(Text text)
         {
-            this.text = text;
+            _text = text;
         }
 
         public IEnumerable<Character> Characters => Enumerable
-                                                        .Range(0, this.text.Text.Length)
-                                                        .Select(i => new Character(text, i));
+                                                        .Range(0, _text.Text.Length)
+                                                        .Select(i => new Character(_text, i));
 
         public string Text
         {
             get
             {
-                return text.Text;
+                return _text.Text;
             }
             set
             {
-                text.Text = value;
+                _text.Text = value;
             }
         }
 

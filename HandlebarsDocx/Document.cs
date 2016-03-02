@@ -6,37 +6,29 @@ namespace HandlebarsDocx
 {
     public class Document
     {
-        private WordprocessingDocument document;
+        private readonly WordprocessingDocument _document;
 
         public Document(WordprocessingDocument document)
         {
-            this.document = document;
+            _document = document;
         }
 
-        public IEnumerable<FoundToken> Tokens()
+        public IEnumerable<FoundToken> Tokens()   => Paragraphs().SelectMany(q => q.Tokens());
+
+        public IEnumerable<Paragraph> Paragraphs()
         {
-            var paragraphs = document.MainDocumentPart
-                                                .Document
-                                                .Body
-                                                .Descendants<DocumentFormat.OpenXml.Wordprocessing.Paragraph>()
-                                                .Select(p => new Paragraph(p));
+            return _document.MainDocumentPart
+                                        .Document
+                                        .Body
+                                        .Descendants<DocumentFormat.OpenXml.Wordprocessing.Paragraph>()
+                                        .Select(p => new Paragraph(p));
+        }
 
-            foreach (var paragraph in paragraphs)
-            {
-                var characters = paragraph.Characters;
-
-                int searchPoint = 0;
-                while(searchPoint < paragraph.Text.Length && paragraph.Text.IndexOf("{{", searchPoint) > -1)
-                {
-                    var startIndex = paragraph.Text.IndexOf("{{", searchPoint);
-                    var endIndex = paragraph.Text.IndexOf("}}", searchPoint) + 2;
-                    if (startIndex > -1 && endIndex > -1)
-                    {
-                        yield return new FoundToken(paragraph, startIndex, endIndex);
-                    }
-                    searchPoint = endIndex;
-                }
-            }
+        public IEnumerable<Helper> Helpers()
+        {
+            return Tokens()
+                    .Where(q => q.Name.StartsWith("#"))
+                    .Select(t => new Helper(t));
         }
     }
 }

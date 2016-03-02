@@ -1,5 +1,4 @@
 using Xunit;
-using HandlebarsDocx;
 
 namespace HandlebarsDocx.Tests
 {
@@ -7,7 +6,7 @@ namespace HandlebarsDocx.Tests
     // https://xunit.github.io/docs/getting-started-dnx.html
     public class WithHelperTests
     {
-        public WithHelperTests.PersonDetails Person => new WithHelperTests.PersonDetails{ FirstName = "Andrew" };
+        public PersonDetails Person => new PersonDetails{ FirstName = "Andrew" };
 
         [Fact]
         public void ReplacePropertyOnNestedObject()
@@ -22,7 +21,7 @@ namespace HandlebarsDocx.Tests
 
         public class PersonDetails
         {
-            public string FirstName {get; set; }
+            public string FirstName { get; set; }
         }
     }
 }

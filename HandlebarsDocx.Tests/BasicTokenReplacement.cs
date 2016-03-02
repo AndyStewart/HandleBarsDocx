@@ -1,4 +1,4 @@
-using Xunit;
+﻿using Xunit;
 using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace HandlebarsDocx.Tests
@@ -7,7 +7,7 @@ namespace HandlebarsDocx.Tests
     {
         public string Name => "Andy";
         public string Hello => "Hello World";
-        public BasicTokenReplacement.PersonDetails Person => new BasicTokenReplacement.PersonDetails{ FirstName = "Andrew" };
+        public PersonDetails Person => new PersonDetails{ FirstName = "Andrew" };
 
         [Fact]
         public void ShouldReplaceBasicHandlebarsSyntax()
