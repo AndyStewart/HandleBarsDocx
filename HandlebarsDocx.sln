@@ -1,0 +1,27 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.0.0
+MinimumVisualStudioVersion = 10.0.0.1
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HandlebarsDocx", "HandlebarsDocx/HandlebarsDocx.xproj", "{ED99BF6C-E9E8-45A1-8B15-F0B0681F59FE}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HandlebarsDocx.Tests", "HandlebarsDocx.Tests/HandlebarsDocx.Tests.xproj", "{8E53EC02-27F0-48DE-9018-22E526EC432C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED99BF6C-E9E8-45A1-8B15-F0B0681F59FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED99BF6C-E9E8-45A1-8B15-F0B0681F59FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED99BF6C-E9E8-45A1-8B15-F0B0681F59FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED99BF6C-E9E8-45A1-8B15-F0B0681F59FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E53EC02-27F0-48DE-9018-22E526EC432C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E53EC02-27F0-48DE-9018-22E526EC432C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E53EC02-27F0-48DE-9018-22E526EC432C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E53EC02-27F0-48DE-9018-22E526EC432C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

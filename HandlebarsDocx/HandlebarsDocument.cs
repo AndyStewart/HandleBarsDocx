@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace HandlebarsDocx
@@ -14,11 +13,11 @@ namespace HandlebarsDocx
                 if (helper.Name == "with")
                 {
                     helper.StartToken.Replace("");
-                    var topPropertyValue = GetValue(helper.Args[0], values);
+                    var topPropertyValue = GetValue<object>(helper.Args[0], values);
                     foreach (var nestedToken in document.Tokens().TakeWhile(q => q.Name != "/with"))
                     {
-                        var replacementValue = GetValue(nestedToken.Name, topPropertyValue);
-                        nestedToken.Replace(replacementValue.ToString());
+                        var replacementValue = GetValue<string>(nestedToken.Name, topPropertyValue);
+                        nestedToken.Replace(replacementValue);
                     }
 
                     document.Tokens().First(q => q.Name == "/with").Replace("");
@@ -27,7 +26,7 @@ namespace HandlebarsDocx
                 {
                     helper.EndToken.Replace("");
 
-                    var showContent = (bool)GetValue(helper.Args[0], values);
+                    var showContent = GetValue<bool>(helper.Args[0], values);
                     if (!showContent)
                     {
                         helper
@@ -45,14 +44,14 @@ namespace HandlebarsDocx
                                     .Tokens()
                                     .Where(q => !q.Name.StartsWith("#") && !q.Name.StartsWith("/")))
             {
-                var replaceText = GetValue(token.Name, values);
-                token.Replace(replaceText.ToString());
+                var replaceText = GetValue<string>(token.Name, values);
+                token.Replace(replaceText);
             }
 
             return wordDocument;
         }
 
-        private static object GetValue(string name, object values)
+        private static T GetValue<T>(string name, object values)
         {
             var propertyName = name.Split('.').First();
             var property = values.GetType()
@@ -61,9 +60,9 @@ namespace HandlebarsDocx
 
             var tokenValue = property.GetValue(values);
             if (propertyName == name)
-                return tokenValue;
+                return (T)tokenValue;
 
-            return GetValue(name.Substring(propertyName.Length + 1), tokenValue);
+            return GetValue<T>(name.Substring(propertyName.Length + 1), tokenValue);
         }
     }
 }
