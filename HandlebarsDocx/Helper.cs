@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace HandlebarsDocx
 {
@@ -7,15 +6,15 @@ namespace HandlebarsDocx
     {
         public FoundToken StartToken { get; }
         public FoundToken EndToken { get; }
-        public IEnumerable<Character> Contents { get; }
+        public Range Contents { get; }
 
         public Helper(FoundToken startToken)
         {
             StartToken = startToken;
-            EndToken = startToken.Paragraph.Tokens().First(t => t.Name == "/" + Name);
-            Contents = startToken.Paragraph
-                .Characters.Skip(StartToken.End)
-                .Take(EndToken.Start - StartToken.End);
+            EndToken = startToken.Range.Tokens().First(t => t.Name == "/" + Name);
+            Contents = new Range(startToken.Range
+                                 .Characters.Skip(StartToken.End)
+                                 .Take(EndToken.Start - StartToken.End));
         }
 
         public string Name => StartToken.Name.Substring(1);

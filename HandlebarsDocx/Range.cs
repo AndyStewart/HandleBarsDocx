@@ -29,15 +29,25 @@ namespace HandlebarsDocx
             }
         }
 
-        public void Replace(int start, int end, FoundToken token, string value)
+        public void Remove()
         {
-            var insertionPoint = Characters.Skip(start).First();
-            insertionPoint.Insert(value);
+            Characters
+                .Reverse()
+                .ToList()
+                .ForEach(c => c.Remove());
+        }
 
-            var newStart = start + value.Length;
-            var charsToRemove = Characters.Skip(newStart).Take(token.Token.Length - 1).ToList();
-            charsToRemove.Reverse();
-            charsToRemove.ForEach(q => q.Remove());
+        public void Replace(string value)
+        {
+            Subset(1, Characters.Count() - 1).Remove();
+
+            var insertionPoint = Characters.First();
+            insertionPoint.Insert(value);
+        }
+
+        public Range Subset(int start, int length)
+        {
+            return new Range(Characters.Skip(start).Take(length));
         }
     }
 }

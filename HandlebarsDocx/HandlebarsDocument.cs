@@ -29,26 +29,31 @@ namespace HandlebarsDocx
                     var showContent = GetValue<bool>(helper.Args[0], values);
                     if (!showContent)
                     {
-                        helper
-                            .Contents
-                            .Reverse()
-                            .ToList()
-                            .ForEach(c => c.Remove());
+                        helper.Contents.Remove();
                     }
 
                     helper.StartToken.Replace("");
                 }
             }
 
-            foreach (var token in document
+            foreach (var paragraph in document.Paragraphs())
+            {
+                Replace(paragraph, values);
+            }
+
+
+            return wordDocument;
+        }
+
+        private static void Replace(Range range, object value)
+        {
+            foreach (var token in range
                                     .Tokens()
                                     .Where(q => !q.Name.StartsWith("#") && !q.Name.StartsWith("/")))
             {
-                var replaceText = GetValue<string>(token.Name, values);
+                var replaceText = GetValue<string>(token.Name, value);
                 token.Replace(replaceText);
             }
-
-            return wordDocument;
         }
 
         private static T GetValue<T>(string name, object values)
