@@ -3,11 +3,11 @@ namespace HandlebarsDocx
 {
     public class FoundToken
     {
-        public Paragraph Paragraph { get; }
+        public Range Paragraph { get; }
 
         public int Start { get; }
         public int End { get; }
-        public FoundToken(Paragraph element, int start, int end)
+        public FoundToken(Range element, int start, int end)
         {
             Paragraph = element;
             Token = element.Text.Substring(start, end - start);

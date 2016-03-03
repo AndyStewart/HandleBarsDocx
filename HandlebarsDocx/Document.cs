@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace HandlebarsDocx
 {
@@ -15,14 +16,22 @@ namespace HandlebarsDocx
 
         public IEnumerable<FoundToken> Tokens()   => Paragraphs().SelectMany(q => q.Tokens());
 
-        public IEnumerable<Paragraph> Paragraphs()
+        public IEnumerable<Range> Paragraphs()
         {
             return _document.MainDocumentPart
                                         .Document
                                         .Body
                                         .Descendants<DocumentFormat.OpenXml.Wordprocessing.Paragraph>()
-                                        .Select(p => new Paragraph(p));
+                                        .Select(p => new Range(Characters(p)));
         }
+
+        private IEnumerable<Character> Characters(DocumentFormat.OpenXml.Wordprocessing.Paragraph paragraph)
+        {
+            return paragraph.Descendants<Text>()
+                            .Select(t => new Element(t))
+                            .SelectMany(q => q.Characters);
+        }
+
 
         public IEnumerable<Helper> Helpers()
         {

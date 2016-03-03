@@ -1,21 +1,18 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace HandlebarsDocx
 {
-    public class Paragraph
+    public class Range
     {
-        private readonly DocumentFormat.OpenXml.Wordprocessing.Paragraph _element;
+        public IEnumerable<Character> Characters { get; }
 
-        public Paragraph(DocumentFormat.OpenXml.Wordprocessing.Paragraph element)
+        public Range(IEnumerable<Character> characters)
         {
-            _element = element;
+            Characters = characters;
         }
 
-        public IEnumerable<Character> Characters => _element.Descendants<Text>()
-                                                             .Select(t => new Element(t))
-                                                             .SelectMany(q => q.Characters);
+        public string Text => Characters.Aggregate("", (c, current) => c + current.Text);
 
         public IEnumerable<FoundToken> Tokens()
         {
@@ -31,8 +28,6 @@ namespace HandlebarsDocx
                 searchPoint = endIndex;
             }
         }
-
-        public string Text => Characters.Aggregate("", (c, current) => c + current.Text);
 
         public void Replace(int start, int end, FoundToken token, string value)
         {
